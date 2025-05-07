@@ -13,7 +13,7 @@ datasets:
     text_processor:
       train:
         name: "blip_caption"
-    sample_ratio: 115
+    sample_ratio: 0
   cc_sbu:
     batch_size: 64
     vis_processor:
@@ -23,7 +23,7 @@ datasets:
     text_processor:
         train:
           name: "blip_caption"
-    sample_ratio: 14
+    sample_ratio: 0
 
 
 run:
