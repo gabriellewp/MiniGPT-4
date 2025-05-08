@@ -23,7 +23,6 @@ jobs:
           PAYLOAD: ${{ toJson(github.event) }}
       - name: print something from the payload
         env: 
-          pusher: ${{ github.event.pusher.name }} # this is the name of the person who pushed the commit
-        run: |
-          echo "Pusher's name: $PUSHER_NAME"
-          
+          pusher: ${{ github.event.pusher.name }} # this is the name of the   emaperson who pushed the commit
+          email: ${{ github.event.pusher.email }} # this is the email of the person who pushed the commit
+      
