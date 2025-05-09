@@ -5,18 +5,24 @@ model:
   end_sym: "###"
   low_resource: True
   prompt_template: '###Human: {} ###Assistant: '
-  ckpt: 'please set this value to the path of pretrained checkpoint'
+  ckpt: '/ivi/ilps/personal/gpoerwa/MiniGPT-4/output/minigpt4_stage2_finetune/20250509113/checkpoint_4.pth'
 
 
 datasets:
-  cc_sbu_align:
+  # cc_sbu_align:
+  #   vis_processor:
+  #     train:
+  #       name: "blip2_image_eval"
+  #       image_size: 224
+  #   text_processor:
+  #     train:
+  #       name: "blip_caption"
+  coco_caption:
+    batch_size: 2
     vis_processor:
       train:
-        name: "blip2_image_eval"
+        name: "blip2_image_train"
         image_size: 224
-    text_processor:
-      train:
-        name: "blip_caption"
 
 run:
   task: image_text_pretrain

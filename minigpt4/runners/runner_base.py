@@ -32,6 +32,7 @@ from minigpt4.datasets.datasets.dataloader_utils import (
 )
 from torch.nn.parallel import DistributedDataParallel as DDP
 from torch.utils.data import DataLoader, DistributedSampler
+import wandb
 
 
 @registry.register_runner("runner_base")
@@ -597,7 +598,12 @@ class RunnerBase:
             "checkpoint_{}.pth".format("best" if is_best else cur_epoch),
         )
         logging.info("Saving checkpoint at epoch {} to {}.".format(cur_epoch, save_to))
+        print("Saving checkpoint at epoch {} to {}.".format(cur_epoch, save_to))
         torch.save(save_obj, save_to)
+        #add the wandb artifacts here
+        art = wandb.Artifact(f"{self.job_id}_checkpoint_{cur_epoch}", type="model", metadata={"format": "pth", "model_type": self.config.model_cfg.get("model_type", False)})
+        art.add_file("minigpt4-finetuned.pth")
+        
 
     def _reload_best_model(self, model):
         """

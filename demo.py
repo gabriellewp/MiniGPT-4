@@ -33,6 +33,7 @@ def parse_args():
         "in xxx=yyy format will be merged into config file (deprecate), "
         "change to --cfg-options instead.",
     )
+    parser.add_argument("--cluster-node", type=str, default="localhost", help="cluster node name")
     args = parser.parse_args()
     return args
 
@@ -66,7 +67,7 @@ model = model_cls.from_config(model_config).to('cuda:{}'.format(args.gpu_id))
 
 CONV_VISION = conv_dict[model_config.model_type]
 
-vis_processor_cfg = cfg.datasets_cfg.cc_sbu_align.vis_processor.train
+vis_processor_cfg = cfg.datasets_cfg.coco_caption.vis_processor.train
 vis_processor = registry.get_processor_class(vis_processor_cfg.name).from_config(vis_processor_cfg)
 
 stop_words_ids = [[835], [2277, 29937]]
@@ -168,4 +169,7 @@ with gr.Blocks() as demo:
     )
     clear.click(gradio_reset, [chat_state, img_list], [chatbot, image, text_input, upload_button, chat_state, img_list], queue=False)
 
-demo.launch(share=True, enable_queue=True)
+print("About to launch gradio demo .... ")
+demo.queue().launch(share=True, server_name=args.cluster_node, server_port=8080, show_error=True, debug=True)
+print("Gradio demo launch command executed (this might not print if launch blocks).")
+
